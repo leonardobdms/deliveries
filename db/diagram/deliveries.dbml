@@ -1,0 +1,19 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table deliveries {
+  id integer [primary key]
+  order_id integer [not null]
+  status varchar [not null, default: 'pending']
+  address varchar [not null]
+  created_at timestamp
+  updated_at timestamp
+
+  Note: '''
+    Stores deliveries managed by the Deliveries platform.
+    order_id is a logical reference to an order from the Sales platform.
+    No foreign key exists between the two databases.
+    Status values: pending, picked_up, in_transit, delivered, failed.
+    Delivery status updates are communicated through Kafka events.
+  '''
+}
