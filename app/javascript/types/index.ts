@@ -1,3 +1,5 @@
+export type { Delivery, HomeIndex } from "./serializers"
+
 export type FlashData = {
   notice?: string
   alert?: string

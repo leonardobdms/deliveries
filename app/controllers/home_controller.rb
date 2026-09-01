@@ -2,5 +2,6 @@
 
 class HomeController < InertiaController
   def index
+    @deliveries = Delivery.all
   end
 end
