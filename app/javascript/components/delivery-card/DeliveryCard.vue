@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { Form } from "@inertiajs/vue3"
+
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { Button, type ButtonVariants } from "@/components/ui/button"
 import {
   Card,
   CardAction,
@@ -9,15 +11,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { delivery as deliveryPath } from "@/routes"
 import type { Delivery } from "@/types"
 
-import {
-  deliveryActions,
-  deliveryStatusVariant,
-  formatStatus,
-} from "."
+import { deliveryStatusVariant, formatStatus } from "."
 
 defineProps<{ delivery: Delivery }>()
+
+function buttonVariant(variant: string): ButtonVariants["variant"] {
+  return variant === "destructive" ? "destructive" : "default"
+}
 </script>
 
 <template>
@@ -36,19 +39,19 @@ defineProps<{ delivery: Delivery }>()
         </Badge>
       </CardAction>
     </CardHeader>
-    <CardFooter
-      v-if="deliveryActions[delivery.status]?.length"
-      class="gap-2 px-4"
-    >
-      <Button
-        v-for="action in deliveryActions[delivery.status]"
-        :key="action.label"
-        type="button"
-        size="sm"
-        :variant="action.variant"
+    <CardFooter v-if="delivery.actions.length" class="gap-2 px-4">
+      <Form
+        v-for="action in delivery.actions"
+        :key="action.event"
+        :action="deliveryPath(delivery.id)"
+        :options="{ preserveScroll: true }"
+        disable-while-processing
       >
-        {{ action.label }}
-      </Button>
+        <input type="hidden" name="event" :value="action.event" />
+        <Button type="submit" size="sm" :variant="buttonVariant(action.variant)">
+          {{ action.label }}
+        </Button>
+      </Form>
     </CardFooter>
   </Card>
 </template>

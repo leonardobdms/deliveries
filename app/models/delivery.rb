@@ -12,7 +12,7 @@ class Delivery < ApplicationRecord
       transitions from: :pending, to: :picked_up
     end
 
-    event :start_transit do
+    event :start_transit, display: "Transit" do
       transitions from: :picked_up, to: :in_transit
     end
 
