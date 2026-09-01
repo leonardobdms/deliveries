@@ -25,6 +25,8 @@ class OrdersConsumer < ApplicationConsumer
   end
 
   def fail_delivery(payload)
+    binding.pry
+
     delivery = Delivery.find_by(order_id: payload.fetch("id"))
     return if delivery.blank?
     return unless delivery.may_fail?

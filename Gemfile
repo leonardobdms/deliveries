@@ -77,3 +77,6 @@ gem "alba"
 gem "alba-inertia"
 
 gem "karafka", "~> 2.6"
+
+gem "pry-rails", "~> 0.3.11"
+gem "pry", "~> 0.16.0"
